@@ -10,7 +10,7 @@ The general process for developing capabilities inside of EDCOP are as follows:
 ## Plan Design
 The first step is to understand what your goals are for creating this capability and what components will be needed.  Often a capability will need multiple containers to function properly.  See the Design Guide for information on how pods should be structured.  Some things to bear in mind:
 1. Containers should only carry software.  Kubernetes will lay down all configurations.  Any user configurations will be done using Helm.  More on this in later steps.  This will allow containers to be reused in different pods across the architecture.  
-2. Each container should only have a single process in it.  For sharing information between containers the preffered mechanism is using network to localhosts.  It is also possible to share volumes between pods so one container writes and the other containers picks up these files.  http://blog.kubernetes.io/2015/06/the-distributed-system-toolkit-patterns.html
+2. Each container should only have a single process in it.  For sharing information between containers the preferred mechanism is using network to localhosts.  It is also possible to share volumes between pods so one container writes and the other containers picks up these files.  http://blog.kubernetes.io/2015/06/the-distributed-system-toolkit-patterns.html
 3. Containers should be designed to be short lived.  This should be bared in mind where possible:
 
 ```"In the old way of doing things, we treat our servers like pets, for example Bob the mail server. If Bob goes down, it’s all hands on deck. The CEO can’t get his email and it’s the end of the world. In the new way, servers are numbered, like cattle in a herd. For example, www001 to www100. When one server goes down, it’s taken out back, shot, and replaced on the line."```
@@ -22,7 +22,7 @@ In Kubernetes it is assumed that containers will be forever shifting and moving 
 ## Building Docker Containers
 A container is needed to start this process.  There are some rules that must be followed to maintain standardization across the platform. 
 
-First step is to build the container.  It is necessary to first start with a particular base image.  When building from scratch we reccomend the Centos container.  It is possible to use Docker Hub, but bear in mind that the source of images should be looked at.  If questions arise, talk it through with the rest of the team.  The container must be built in a manner that is automated using Dockerfiles.   
+First step is to build the container.  It is necessary to first start with a particular base image.  When building from scratch we recommend the Centos container.  It is possible to use Docker Hub, but bear in mind that the source of images should be looked at.  If questions arise, talk it through with the rest of the team.  The container must be built in a manner that is automated using Dockerfiles.   
 From: Which container the base image is from.  Use latest so that the container can be built and rebuilt for updates.
 Maintainer: Your name and email for when there are questions.
 
@@ -31,7 +31,7 @@ EDCOP-TOOLS/containers
 
 Create a new directory for your tool name.
 
-After this the steps to isntall your software are next.  This usually involves adding repositories, downloading software, etc.  In this example the container is building Suricata from source code.  When building, development libraries often aren't needed after it is built, so clean those up.  Always run yum clean all at the end.  Finally your initial script should be named docker-entrypoint.sh (this is not always followed, but is generally a good convention.  This should be a small shell script that starts up your software.  Place the docker-extrypoint.sh file in the same directory as the the Dockerfile. Make sure this file is executable.  
+After this the steps to install your software are next.  This usually involves adding repositories, downloading software, etc.  In this example the container is building Suricata from source code.  When building, development libraries often aren't needed after it is built, so clean those up.  Always run yum clean all at the end.  Finally your initial script should be named docker-entrypoint.sh (this is not always followed, but is generally a good convention.  This should be a small shell script that starts up your software.  Place the docker-extrypoint.sh file in the same directory as the the Dockerfile. Make sure this file is executable.  
 
 ```FROM centos:latest
 MAINTAINER Ed Sealing <ed.sealing@sealingtech.org>
@@ -133,7 +133,7 @@ charts
 
 Some notes about best practices that must be followed:
 1. Tabs must be two spaces.  This is to keep things consistent.  Space matters in Kubernetes.  It is a good idea to use a text editor that lets you set this.
-2. Value names should be camelCase. This is reccomended by Hlem, best to keep it consistent.
+2. Value names should be camelCase. This is recommended by Helm, best to keep it consistent.
 3. Always provide defaults designed for a small, single node deployment.  Large scale deployments will need care to properly size these containers and will need to be done on a case by case basis.
 Create the helm directory structure using the command:
 ```
@@ -187,7 +187,7 @@ Environment variables
 Repository
 Hostpath and persistent volumes
 
-All settings should have a comment above the setting about what it does.  In pods containing multiple containers, seperate these by by the container names.
+All settings should have a comment above the setting about what it does.  In pods containing multiple containers, separate these by the container names.
 
 
 The convention these tools will follow are:
